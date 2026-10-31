@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="画面を置いて、文字やボタンを並べる。人間とAIのシンプルなUI作戦ボード。">
+  <title>作戦ボード</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script type="module" src="/app.js"></script>
+</head>
+<body>
+  <main id="home" class="home-page">
+    <header class="home-header"><span class="home-brand">作戦ボード</span><span class="home-status" id="home-status" role="status"></span></header>
+    <section class="home-hero"><div class="home-kicker">UIを考える場所</div><h1>考えた画面を、<br>そのまま共有。</h1><p>人間は画面で、AIはCLIで。<br>同じボードに置いて、動かして、確かめる。</p><div class="home-actions"><button class="button primary" data-action="new-board"><span data-icon="plus"></span>新規作成</button><button class="button subtle" data-action="open-boards"><span data-icon="layers"></span>開く</button></div></section>
+    <section class="home-tutorials" aria-label="チュートリアル"><button class="tutorial-card" data-action="human-tutorial"><span class="tutorial-card-icon" data-icon="cursor"></span><span><strong>人間向けチュートリアル</strong><small>部品を置いて、備考で伝えるまで</small></span><span data-icon="arrow"></span></button><button class="tutorial-card" data-action="ai-tutorial"><span class="tutorial-card-icon" data-icon="terminal"></span><span><strong>AI向けチュートリアル</strong><small>Codex・Claudeへ渡す説明をコピー</small></span><span data-icon="arrow"></span></button></section>
+    <section id="saved-boards" class="saved-boards"><div class="home-section-heading"><h2>保存したボード</h2><div><button class="text-button" data-action="archives">アーカイブ済み</button><button class="text-button" data-action="import-board">JSONから開く</button></div></div><div id="home-board-list" class="home-board-list"><p class="home-loading">読み込み中…</p></div></section>
+  </main>
+  <main class="app-shell" id="editor" hidden>
+    <header class="topbar">
+      <button class="icon-button" data-action="home" aria-label="ホームへ" title="ホームへ"><span data-icon="home"></span></button>
+      <button id="board-title" data-action="boards" title="ボードを開く">作戦ボード</button>
+      <span id="saved-state" class="saved-state" role="status" aria-live="polite"></span>
+      <div class="top-actions">
+        <button class="icon-button" id="undo-button" data-action="undo" aria-label="取り消す" title="取り消す Ctrl+Z"><span data-icon="undo"></span></button>
+        <div class="popover-wrap">
+          <button class="button primary" id="parts-button" data-action="parts" aria-label="追加" aria-expanded="false"><span data-icon="plus"></span>追加</button>
+          <div id="parts-menu" class="popover" hidden></div>
+        </div>
+        <button class="button subtle" data-action="preview" aria-label="試す"><span data-icon="play"></span>試す</button>
+        <div class="popover-wrap">
+          <button class="icon-button" id="more-button" data-action="more" aria-label="その他" aria-expanded="false"><span data-icon="more"></span></button>
+          <div id="more-menu" class="popover menu-end" hidden></div>
+        </div>
+      </div>
+    </header>
+    <section class="board-area" aria-label="作戦ボード">
+      <div id="scope-bar" class="scope-bar" hidden><span id="scope-title"></span><button class="button subtle" data-action="leave-scope">ボードに戻る</button></div>
+      <div class="viewport" id="viewport" tabindex="0" aria-label="キャンバス">
+        <div class="world" id="world"><svg class="connection-layer" id="connections" aria-label="画面遷移"></svg><div id="screen-canvas"></div></div>
+        <div class="empty-board" id="empty-board" hidden><p>画面を置いて、考えよう。</p><button class="button primary" data-action="add-screen"><span data-icon="plus"></span>画面を追加</button></div>
+      </div>
+      <aside class="inspector" id="inspector" aria-label="選択した部品の編集" hidden></aside>
+      <div class="zoom-controls"><button class="icon-button" data-action="zoom-out" aria-label="縮小"><span data-icon="minus"></span></button><button class="icon-button" data-action="fit" aria-label="全体を表示" title="全体を表示"><span data-icon="fit"></span></button><button class="icon-button" data-action="zoom-in" aria-label="拡大"><span data-icon="plus"></span></button></div>
+    </section>
+  </main>
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+  <dialog id="dialog" class="dialog"><div id="dialog-content"></div></dialog>
+  <dialog id="preview-dialog" class="preview-dialog">
+    <div class="preview-topbar"><span id="preview-name"></span><div><button class="icon-button" data-action="preview-back" aria-label="前の画面に戻る"><span data-icon="undo"></span></button><button class="icon-button" data-action="close-preview" aria-label="プレビューを閉じる"><span data-icon="close"></span></button></div></div>
+    <div class="preview-stage"><div id="preview-screen"></div></div>
+    <div class="preview-footer">部品を押して画面遷移を確認 · 細かな動きは備考へ</div>
+  </dialog>
+</body>
+</html>

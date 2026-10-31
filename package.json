@@ -1,0 +1,16 @@
+{
+  "name": "uiboard",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A shared UI planning board for people and CLI agents.",
+  "type": "module",
+  "engines": { "node": ">=22" },
+  "bin": { "uiboard": "./cli.mjs" },
+  "scripts": {
+    "start": "node cli.mjs serve",
+    "dev": "node cli.mjs serve",
+    "board": "node cli.mjs",
+    "test": "node --test test/*.test.mjs",
+    "check": "node --check cli.mjs && node --check server.mjs && node --check lib/board.mjs && node --check lib/store.mjs && node --check lib/export.mjs && node --check lib/bundle.mjs && node --check lib/tutorial.mjs && node --check public/app.js && node --check public/board-rules.js && node --check public/connections.js && node --check public/regions.js && node --check public/design-checks.js && node --check public/editor-tools.js"
+  }
+}
